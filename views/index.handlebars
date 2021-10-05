@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/registration_number.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,7 +42,7 @@
                 <input type="radio" name="towns" class="townRadio" value="paarl">
                 <span class="label-body">Paarl (CJ)</span>
             </label>
-            <label class="george">
+            <label class="bellville">
                 <input type="radio" name="towns" class="townRadio" value="bellville">
                 <span class="label-body">Bellville (CY)</span>
             </label>
@@ -50,20 +51,28 @@
                 <span class="label-body">Show All</span>
             </label>
         </div>
-        <div>
-            <button class="button-primary show" type="button" name="button">SHOW</button>
-            <button onClick="window.location.reload();" class="button-primary reset" type="button"
-                name="button">RESET</button>
-            <div class="count"></div>
-        </div>
+        <div class="btnSpace">
 
-        <div>
-            <span class="displayRegNum">
-                <ul class="listFormat" id="list">
-                    {{listFormat}}
-                </ul>
-            </span>
+        <button class="button-primary show" type="button" name="button">SHOW</button>
+        <form action="/reset" method="post">
+            <button onClick="window.location.reload();" class="button-primary Reset" type="submit"
+                name="button">RESET</button>
+        </form>
         </div>
+        <div class="count"></div>
+
+        <ul class="listFormat" id="list">
+
+            {{#each listFormat}}
+            <li class="listItems">
+                {{this.regno}}
+
+            </li>
+
+
+            {{/each}}
+        </ul>
+
     </div>
 
 </body>

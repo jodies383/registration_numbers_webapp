@@ -11,7 +11,7 @@ body {
 }
 
 .container {
-  width: 450px;
+  width: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,20 +31,21 @@ body {
   justify-content: space-evenly;
 }
 
+
 .listItems {
   margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 2px;
-  background-color: #f5b342;
+  background-color : #f5b342;
   border: solid black 2px;
-  border-radius: 4px;
-  font-weight: bold;
-  text-align: center;
-  width: 15%;
+  border-radius : 4px;
+  font-weight : bold;
+  text-align : center;
+  /* width: 20%; */
 }
 
 .radioBtns {
-  margin: 7px;
+  margin: 10px;
 }
 
 img {
@@ -65,8 +66,11 @@ button {
   padding: 11px;
   font-size: 16px;
   color: white;
+  margin: 1px;
 }
-
+.btnSpace{
+  display: flex;
+}
 button:hover {
   cursor: pointer;
   background-color: #04AA6D;

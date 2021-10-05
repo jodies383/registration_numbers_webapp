@@ -1,19 +1,36 @@
-module.exports = function () {
+module.exports = function (pool) {
 
     // function registration(existingReg) {
 
-    var regNum = []
+    //var regNum = []
 
     var regEx = /^[A-Z]{2} [0-9]{3}(-[0-9]{3})$|[A-Z]{2} [0-9]{3}([0-9]{3})$|[A-Z]{2} ([0-9]{3} [0-9]{3})$|[A-Z]{2} ([0-9]{4})$/i;
 
-    function addRegNum(enterNum) {
+    async function addRegNum(enterNum) {
+        if (enterNum) {
+            let upperNum = enterNum.toUpperCase()
+            if (regEx.test(upperNum)) {
+                let checknum = await pool.query(`SELECT regNo from reg WHERE regNo = $1`, [upperNum]);
 
-        if (!regNum.includes(enterNum.toUpperCase()) && regEx.test(enterNum.toUpperCase())) {
-            regNum.push(enterNum.toUpperCase())
-        } else return sameReg()
+                if (checknum.rowCount < 1) {
+
+                    await pool.query(`INSERT INTO reg (regNo) VALUES ($1)`, [upperNum])
+                }
+
+            }
+        }
     }
-    function returnReg() {
-        return regNum
+    async function returnReg() {
+        const result = await pool.query('select regNo from reg')
+        let regValue = result.rows;
+            console.log(regValue);
+        return regValue
+
+    }
+    async function reset() {
+        let deleted = await pool.query('delete from reg')
+
+        return deleted
     }
     function validReg(enterNum) {
         if (!regEx.test(enterNum)) {
@@ -66,6 +83,7 @@ module.exports = function () {
         towns,
         noTowns,
         returnReg,
+        reset,
         noTownFound
     }
 }
