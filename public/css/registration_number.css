@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+body {
+  font-family: 'Poppins', sans-serif;
+  padding: 0;
+  margin: 0;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  border-radius: 20px;
+  padding: 30px 30px 70px;
+}
+.listFormat {
+  padding: 0 0 0 0;
+  text-align: center;
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.listItems {
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 2px;
+  background-color : #f5b342;
+  border: solid black 2px;
+  border-radius : 4px;
+  font-weight : bold;
+  text-align : center;
+  width: 15%;
+}
+.radioBtns {
+  margin: 7px;
+}
+
+img {
+  width: 82px;
+  margin-bottom: 15px;
+}
+
+p {
+  margin-bottom: 40px;
+  font-size: 18px;
+}
+
+button {
+  background-color: #9eed55;
+  border: none;
+  border-radius: 5px;
+  width: 100px;
+  padding: 11px;
+  font-size: 16px;
+  color: white;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #333;
+  border-color: #888;
+  outline: 0;
+}
+
+input[type="number"], input[type="search"], input[type="text"], textarea, select {
+  height: 38px;
+  padding: 6px 10px;
+  background-color: #fff;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+.warning {
+  color: orange;
+  font-weight: bold;
+}
+
+.danger {
+  color: crimson;
+  font-weight: bold;
+}
+
+.total {
+  font-weight: bold;
+  font-size: 2em;
+}

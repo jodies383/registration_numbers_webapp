@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/registration_number.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Numbers</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Registration Numbers</h1>
+
+        <div>
+            <p>Enter a registration number in the text box below</p>
+            <p>Use the format CA 123-456/CA 123 222/CY 112334/CJ 2344</p>
+
+        </div>
+
+        <span class="errorMessage"></span>
+        <span class="errorMessage2"></span>
+        <form action="/reg_numbers" method="POST">
+            <div>
+                <input type="text" name="enterNum" value="{{reg.enterNum}}" placeholder="enter a registration number"
+                    class="regNumText">
+
+                <button class="button-primary add" type="submit" name="button">ADD</button>
+            </div>
+        </form>
+        <div class="radioBtns">
+            <label class="cpt">
+                <input type="radio" name="towns" class="townRadio" value="cpt">
+                <span class="label-body">Cape Town (CA)</span>
+            </label>
+            <label class="paarl">
+                <input type="radio" name="towns" class="townRadio" value="paarl">
+                <span class="label-body">Paarl (CJ)</span>
+            </label>
+            <label class="george">
+                <input type="radio" name="towns" class="townRadio" value="bellville">
+                <span class="label-body">Bellville (CY)</span>
+            </label>
+            <label class="all">
+                <input type="radio" name="towns" class="townRadio" value="all">
+                <span class="label-body">Show All</span>
+            </label>
+        </div>
+        <div>
+            <button class="button-primary show" type="button" name="button">SHOW</button>
+            <button onClick="window.location.reload();" class="button-primary reset" type="button"
+                name="button">RESET</button>
+            <div class="count"></div>
+        </div>
+
+        <div>
+            <span class="displayRegNum">
+                <ul class="listFormat" id="list">
+                    {{listFormat}}
+                </ul>
+            </span>
+        </div>
+    </div>
+
+</body>
