@@ -22,56 +22,55 @@
             <p>Use the format CA 123-456/CA 123 222/CY 112334/CJ 2344</p>
 
         </div>
-
-        <span class="errorMessage"></span>
-        <span class="errorMessage2"></span>
+        {{#if messages.info}}
+        <div class="warning">
+            <h1> {{messages.info}}</h1>
+        </div>
+        {{/if}}
         <form action="/reg_numbers" method="POST">
             <div>
-                <input type="text" name="enterNum" value="{{reg.enterNum}}" placeholder="enter a registration number"
+                <input type="text" name="enterNum" value="{{enterNum}}" placeholder="enter a registration number"
                     class="regNumText">
 
                 <button class="button-primary add" type="submit" name="button">ADD</button>
             </div>
         </form>
-        <div class="radioBtns">
-            <label class="cpt">
-                <input type="radio" name="towns" class="townRadio" value="cpt">
-                <span class="label-body">Cape Town (CA)</span>
-            </label>
-            <label class="paarl">
-                <input type="radio" name="towns" class="townRadio" value="paarl">
-                <span class="label-body">Paarl (CJ)</span>
-            </label>
-            <label class="bellville">
-                <input type="radio" name="towns" class="townRadio" value="bellville">
-                <span class="label-body">Bellville (CY)</span>
-            </label>
-            <label class="all">
-                <input type="radio" name="towns" class="townRadio" value="all">
-                <span class="label-body">Show All</span>
-            </label>
-        </div>
-        <div class="btnSpace">
+        <form action="/show" method="post">
+            <div class="radioBtns">
+                <label class="cpt">
+                    <input type="radio" name="towns" class="townRadio" value="cpt">
+                    <span class="label-body">Cape Town (CA)</span>
+                </label>
+                <label class="paarl">
+                    <input type="radio" name="towns" class="townRadio" value="paarl">
+                    <span class="label-body">Paarl (CJ)</span>
+                </label>
+                <label class="bellville">
+                    <input type="radio" name="towns" class="townRadio" value="bellville">
+                    <span class="label-body">Bellville (CY)</span>
+                </label>
+                <label class="all">
+                    <input type="radio" name="towns" class="townRadio" value="all">
+                    <span class="label-body">Show All</span>
+                </label>
+            </div>
+            <div class="space">
 
-        <button class="button-primary show" type="button" name="button">SHOW</button>
+                <button class="button-primary show" type="submit" name="button">SHOW</button>
+        </form>
         <form action="/reset" method="post">
             <button onClick="window.location.reload();" class="button-primary Reset" type="submit"
                 name="button">RESET</button>
         </form>
-        </div>
-        <div class="count"></div>
+    </div>
 
-        <ul class="listFormat" id="list">
-
-            {{#each listFormat}}
-            <li class="listItems">
-                {{this.regno}}
-
-            </li>
-
-
-            {{/each}}
-        </ul>
+    <ul class="listFormat" id="list">
+        {{#each listFormat}}
+        <li class="listItems">
+            {{this.regno}}
+        </li>
+        {{/each}}
+    </ul>
 
     </div>
 

@@ -1,89 +1,66 @@
 module.exports = function (pool) {
 
-    // function registration(existingReg) {
-
-    //var regNum = []
-
     var regEx = /^[A-Z]{2} [0-9]{3}(-[0-9]{3})$|[A-Z]{2} [0-9]{3}([0-9]{3})$|[A-Z]{2} ([0-9]{3} [0-9]{3})$|[A-Z]{2} ([0-9]{4})$/i;
 
-    async function addRegNum(enterNum) {
+    async function addRegNum(enterNum, req) {
         if (enterNum) {
             let upperNum = enterNum.toUpperCase()
             if (regEx.test(upperNum)) {
                 let checknum = await pool.query(`SELECT regNo from reg WHERE regNo = $1`, [upperNum]);
+                let codes = enterNum.substring(0, 2)
 
                 if (checknum.rowCount < 1) {
-
-                    await pool.query(`INSERT INTO reg (regNo) VALUES ($1)`, [upperNum])
+                    let regId = await selectRegId(codes)
+                    await pool.query(`INSERT INTO reg (regNo, reg_id) VALUES ($1, $2)`, [upperNum, regId])
+                } else if (!checknum.rowCount < 1) {
+                    req.flash('info', 'Registration number already exists');
                 }
 
             }
+        } else if (!regEx.test(enterNum)) {
+            req.flash('info', 'Please enter a valid registration number');
         }
+
     }
     async function returnReg() {
         const result = await pool.query('select regNo from reg')
         let regValue = result.rows;
-            console.log(regValue);
         return regValue
 
+    }
+    async function selectRegId(reg) {
+        let select = await pool.query('select id from towns where regCode = $1', [reg])
+        return select.rows[0].id;
+    }
+    async function showBtn(btn, req) {
+        if (btn === "cpt") {
+            let cpt = await pool.query("select regno from reg where reg_id = '1'")
+            return cpt.rows
+        } else if (btn === "paarl") {
+            let paarl = await pool.query("select regno from reg where reg_id = '2'")
+            return paarl.rows
+        } else if (btn === "bellville") {
+            let bellville = await pool.query("select regno from reg where reg_id = '3'")
+            return bellville.rows
+        } else if (btn === 'all') {
+            let all = await pool.query("select regno from reg")
+            return all.rows
+        }
+         else if (!btn) {
+            req.flash('info', 'Please select a town');
+        }
     }
     async function reset() {
         let deleted = await pool.query('delete from reg')
 
         return deleted
     }
-    function validReg(enterNum) {
-        if (!regEx.test(enterNum)) {
-            return "Please enter a valid registration number"
-        }
-    }
-    function sameReg() {
-        return "Registration number already exists"
-
-    }
-
-    function towns(checkedRadioBtn) {
-        var cptArr = regNum.filter((reg) => reg.startsWith("CA"))
-        var paarlArr = regNum.filter((reg) => reg.startsWith("CJ"))
-        var belArr = regNum.filter((reg) => reg.startsWith("CY"))
-
-        if (checkedRadioBtn === "cpt") {
-            return cptArr
-        } else if (checkedRadioBtn === "paarl") {
-            return paarlArr
-        } else if (checkedRadioBtn === "bellville") {
-            return belArr
-        } else if (checkedRadioBtn === "all") {
-            return regNum
-        } else if (cptArr.length === 0 || paarlArr.length === 0 || belArr.length === 0 || regNum.length === 0) {
-            return noTownFound()
-        }
-
-
-    }
-
-    function noTownFound() {
-        return ("No registration numbers found")
-    }
-
-
-
-    function noTowns(RadioBtn) {
-
-        if (!RadioBtn) {
-            return "Please select a town"
-        } else return ""
-
-    }
 
     return {
         addRegNum,
-        sameReg,
-        validReg,
-        towns,
-        noTowns,
         returnReg,
+        selectRegId,
+        showBtn,
         reset,
-        noTownFound
     }
 }

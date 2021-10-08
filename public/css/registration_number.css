@@ -31,18 +31,16 @@ body {
   justify-content: space-evenly;
 }
 
-
 .listItems {
   margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 2px;
-  background-color : #f5b342;
+  background-color: #f5b342;
   border: solid black 2px;
-  border-radius : 4px;
-  font-weight : bold;
-  text-align : center;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
   font-family: 'Chakra Petch', sans-serif;
-
   /* width: 20%; */
 }
 
@@ -70,9 +68,12 @@ button {
   color: white;
   margin: 1px;
 }
-.btnSpace{
+
+.space {
+  margin-left: 30%;
   display: flex;
 }
+
 button:hover {
   cursor: pointer;
   background-color: #04AA6D;
@@ -90,17 +91,16 @@ input[type="number"], input[type="search"], input[type="text"], textarea, select
   box-sizing: border-box;
 }
 
+@keyframes errors {
+  to {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+}
 .warning {
-  color: orange;
+  color: #da5049;
   font-weight: bold;
-}
-
-.danger {
-  color: crimson;
-  font-weight: bold;
-}
-
-.total {
-  font-weight: bold;
-  font-size: 2em;
+  font-size: 7px;
+  animation: errors 0s ease-in 2s forwards;
 }

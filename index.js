@@ -8,9 +8,16 @@ const handlebarSetup = exphbs({
     layoutsDir: './views/layouts'
 });
 const bodyParser = require('body-parser');
-const registration = require('./registration');
+const registration = require('./routes/routes');
+const flash = require('express-flash');
+const session = require('express-session');
 const app = express();
-
+app.use(session({
+    secret : "registration",
+    resave: false,
+    saveUninitialized: true
+  }));
+  app.use(flash());
 app.engine('handlebars', handlebarSetup);
 app.set('view engine', 'handlebars');
 app.use(express.static('public'));
@@ -31,24 +38,14 @@ const dbpool = new Pool({
 });
 const reg = registration(dbpool)
 
-app.get('/', async function (req, res) {
-    let regNum = await reg.returnReg();
-    res.render('index', {
-        listFormat: regNum
-    });
-});
-app.post('/reg_numbers', async function (req, res) {
-    await reg.addRegNum(req.body.enterNum);
-    res.redirect('/')
-});
+app.get('/', reg.home);
+app.post('/reg_numbers', reg.addNum);
 app.get('/reg_numbers', function (req, res) {
     res.redirect('/')
 });
-app.post('/reset', async function (req, res) {
-    await reg.reset()
+app.post('/show', reg.show);
 
-    res.redirect('/')
-});
+app.post('/reset', reg.resetBtn);
 
 let PORT = process.env.PORT || 3007;
 
