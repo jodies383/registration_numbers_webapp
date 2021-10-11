@@ -46,14 +46,24 @@ module.exports = function (pool) {
             let all = await pool.query("select regno from reg")
             return all.rows
         }
-         else if (!btn) {
+        else if (!btn) {
             req.flash('info', 'Please select a town');
+        } else if (btn === "cpt" || "paarl" || "bellville" && !cpt || !paarl || !bellville){
+            req.flash('info', 'No registration numbers found')
         }
     }
     async function reset() {
         let deleted = await pool.query('delete from reg')
 
         return deleted
+    }
+    async function regList(reg) {
+        let usersTotal = await pool.query('select regno from reg WHERE regno = $1', [reg])
+        let counted = usersTotal.rows[0];
+        let newCount = counted;
+
+        return newCount
+
     }
 
     return {
@@ -62,5 +72,6 @@ module.exports = function (pool) {
         selectRegId,
         showBtn,
         reset,
+        regList
     }
 }

@@ -40,9 +40,7 @@ const reg = registration(dbpool)
 
 app.get('/', reg.home);
 app.post('/reg_numbers', reg.addNum);
-app.get('/reg_numbers', function (req, res) {
-    res.redirect('/')
-});
+app.get('/reg_numbers/:reg', reg.showReg);
 app.post('/show', reg.show);
 
 app.post('/reset', reg.resetBtn);

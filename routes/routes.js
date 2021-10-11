@@ -28,7 +28,15 @@ module.exports = function (pool) {
         res.redirect('/')
     }
 
+    async function showReg(req, res) {
+        let users = req.params.reg
+        let newCount = await greeted.regList(users)
 
+        res.render('index', {
+            reg: newCount
+        });
+
+    }
 
 
 
@@ -45,7 +53,8 @@ module.exports = function (pool) {
         home,
         addNum,
         show,
-        resetBtn
+        resetBtn,
+        showReg
     }
 
 }
