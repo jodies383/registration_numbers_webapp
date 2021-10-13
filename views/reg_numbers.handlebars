@@ -64,14 +64,11 @@
         </form>
     </div>
 
-    <ul class="listFormat" id="list">
-        {{#each listFormat}}
-        <li class="listItems">
-            {{this.regno}}
-        </li>
-        {{/each}}
-    </ul>
-   
+    <form action="/reg_numbers" method="get">
+        <ul>{{reg}}</ul>
+        </a>
+    </form>
+
     </div>
 
 </body>

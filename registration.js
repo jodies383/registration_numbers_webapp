@@ -16,9 +16,11 @@ module.exports = function (pool) {
                     req.flash('info', 'Registration number already exists');
                 }
 
+            } else if (!regEx.test(enterNum)) {
+                req.flash('info', 'Please enter a valid registration number');
             }
-        } else if (!regEx.test(enterNum)) {
-            req.flash('info', 'Please enter a valid registration number');
+        } else if (!enterNum) {
+            req.flash('info', 'Please enter a registration number')
         }
 
     }
@@ -33,6 +35,7 @@ module.exports = function (pool) {
         return select.rows[0].id;
     }
     async function showBtn(btn, req) {
+        let empty = await pool.query("SELECT * FROM reg WHERE reg_id IS NULL OR regno = ' ';")
         if (btn === "cpt") {
             let cpt = await pool.query("select regno from reg where reg_id = '1'")
             return cpt.rows
@@ -48,7 +51,7 @@ module.exports = function (pool) {
         }
         else if (!btn) {
             req.flash('info', 'Please select a town');
-        } else if (btn === "cpt" || "paarl" || "bellville" && !cpt || !paarl || !bellville){
+        } else if (cpt === false && btn === 'cpt') {
             req.flash('info', 'No registration numbers found')
         }
     }
