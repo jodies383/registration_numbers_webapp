@@ -13,11 +13,11 @@ const flash = require('express-flash');
 const session = require('express-session');
 const app = express();
 app.use(session({
-    secret : "registration",
+    secret: "registration",
     resave: false,
     saveUninitialized: true
-  }));
-  app.use(flash());
+}));
+app.use(flash());
 app.engine('handlebars', handlebarSetup);
 app.set('view engine', 'handlebars');
 app.use(express.static('public'));
