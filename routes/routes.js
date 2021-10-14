@@ -23,7 +23,7 @@ module.exports = function (pool) {
         });
     }
     async function resetBtn(req, res) {
-        await reg.reset()
+        await reg.reset(req)
         res.redirect('/')
     }
     async function showReg(req, res) {

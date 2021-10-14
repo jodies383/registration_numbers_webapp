@@ -102,6 +102,12 @@ input[type="number"], input[type="search"], input[type="text"], textarea, select
   font-size: 7px;
   animation: errors 0s ease-in 2s forwards;
 }
+.success{
+  color: #359e32;
+  font-weight: bold;
+  font-size: 7px;
+  animation: errors 0s ease-in 2s forwards;
+}
 @media (max-width:320px) {
   body{
     height: 900px;

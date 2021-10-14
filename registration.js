@@ -1,6 +1,6 @@
 module.exports = function (pool) {
 
-    var regEx = /^[A-Z]{2} [0-9]{3}(-[0-9]{3})$|[A-Z]{2} [0-9]{3}([0-9]{3})$|[A-Z]{2} ([0-9]{3} [0-9]{3})$|[A-Z]{2} ([0-9]{4})$/i;
+    var regEx = /^[a-zA-Z]{2} [0-9]{3}(-[0-9]{3})$|[a-zA-Z]{2} [0-9]{3}([0-9]{3})$|[a-zA-Z]{2} ([0-9]{3} [0-9]{3})$|[a-zA-Z]{2} ([0-9]{4})$/i;
 
     async function addRegNum(enterNum) {
         if (enterNum) {
@@ -35,7 +35,8 @@ module.exports = function (pool) {
 
     }
     async function selectRegId(reg) {
-        let select = await pool.query('select id from towns where regCode = $1', [reg])
+        let upperReg = reg.toUpperCase()
+        let select = await pool.query('select id from towns where regCode = $1', [upperReg])
         return select.rows[0].id;
     }
     async function showBtn(btn, req) {
@@ -75,8 +76,9 @@ module.exports = function (pool) {
             req.flash('info', 'No registration numbers found');
         }
     }
-    async function reset() {
+    async function reset(req) {
         let deleted = await pool.query('delete from reg')
+        req.flash('success', 'Registration numbers successfully reset')
 
         return deleted
     }
