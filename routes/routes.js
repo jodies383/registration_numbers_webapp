@@ -6,13 +6,13 @@ module.exports = function (pool) {
 
     async function home(req, res) {
         let regNum = await reg.returnReg();
-
         res.render('index', {
             listFormat: regNum
         });
     }
     async function addNum(req, res) {
-        await reg.addRegNum(req.body.enterNum, req);
+        await reg.errors(req.body.enterNum, req)
+        await reg.addRegNum(req.body.enterNum);
         res.redirect('/')
     }
     async function show(req, res) {
@@ -20,34 +20,17 @@ module.exports = function (pool) {
         res.render('index', {
             listFormat: show
         });
-
     }
     async function resetBtn(req, res) {
         await reg.reset()
-
         res.redirect('/')
     }
-
     async function showReg(req, res) {
         let users = req.params.reg
-        let newCount = await greeted.regList(users)
-
-        res.render('index', {
-            reg: newCount
+        res.render('reg_numbers', {
+            reg: users
         });
-
     }
-
-
-
-
-
-
-
-
-
-
-
 
     return {
         home,

@@ -2,7 +2,7 @@ module.exports = function (pool) {
 
     var regEx = /^[A-Z]{2} [0-9]{3}(-[0-9]{3})$|[A-Z]{2} [0-9]{3}([0-9]{3})$|[A-Z]{2} ([0-9]{3} [0-9]{3})$|[A-Z]{2} ([0-9]{4})$/i;
 
-    async function addRegNum(enterNum, req) {
+    async function addRegNum(enterNum) {
         if (enterNum) {
             let upperNum = enterNum.toUpperCase()
             if (regEx.test(upperNum)) {
@@ -12,18 +12,22 @@ module.exports = function (pool) {
                 if (checknum.rowCount < 1) {
                     let regId = await selectRegId(codes)
                     await pool.query(`INSERT INTO reg (regNo, reg_id) VALUES ($1, $2)`, [upperNum, regId])
-                } else if (!checknum.rowCount < 1) {
-                    req.flash('info', 'Registration number already exists');
                 }
-
-            } else if (!regEx.test(enterNum)) {
-                req.flash('info', 'Please enter a valid registration number');
             }
-        } else if (!enterNum) {
-            req.flash('info', 'Please enter a registration number')
         }
-
     }
+    async function errors(enterNum, req) {
+        let upperNum = enterNum.toUpperCase()
+
+        let checknum = await pool.query(`SELECT regNo from reg WHERE regNo = $1`, [upperNum]);
+
+        if (!checknum.rowCount < 1) {
+            req.flash('info', 'Registration number already exists');
+        } else if (!regEx.test(enterNum)) {
+            req.flash('info', 'Please enter a valid registration number');
+        }
+    }
+
     async function returnReg() {
         const result = await pool.query('select regNo from reg')
         let regValue = result.rows;
@@ -35,7 +39,6 @@ module.exports = function (pool) {
         return select.rows[0].id;
     }
     async function showBtn(btn, req) {
-        let empty = await pool.query("SELECT * FROM reg WHERE reg_id IS NULL OR regno = ' ';")
         if (btn === "cpt") {
             let cpt = await pool.query("select regno from reg where reg_id = '1'")
             return cpt.rows
@@ -51,30 +54,22 @@ module.exports = function (pool) {
         }
         else if (!btn) {
             req.flash('info', 'Please select a town');
-        } else if (cpt === false && btn === 'cpt') {
-            req.flash('info', 'No registration numbers found')
         }
     }
+
     async function reset() {
         let deleted = await pool.query('delete from reg')
 
         return deleted
     }
-    async function regList(reg) {
-        let usersTotal = await pool.query('select regno from reg WHERE regno = $1', [reg])
-        let counted = usersTotal.rows[0];
-        let newCount = counted;
-
-        return newCount
-
-    }
 
     return {
         addRegNum,
+        errors,
         returnReg,
         selectRegId,
         showBtn,
-        reset,
-        regList
+        reset
     }
 }
+

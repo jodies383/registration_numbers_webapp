@@ -3,7 +3,7 @@
 
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/registration_number.css">
+    <link rel="stylesheet" href="/css/registration_number.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Numbers</title>
 </head>
+
 
 <body>
     <div class="container">
@@ -55,7 +56,6 @@
                 </label>
             </div>
             <div class="space">
-
                 <button class="button-primary show" type="submit" name="button">SHOW</button>
         </form>
         <form action="/reset" method="post">
@@ -64,11 +64,12 @@
         </form>
     </div>
 
-    <form action="/reg_numbers" method="get">
-        <ul>{{reg}}</ul>
-        </a>
-    </form>
+    <ul class="listFormat" id="list">
+        <li class="listItems">
 
+            {{reg}}
+        </li>
+    </ul>
     </div>
 
 </body>
