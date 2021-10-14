@@ -72,7 +72,7 @@ describe('The basic database web app', function () {
             let show = await reg.showBtn('cpt');
             assert.deepEqual([{ regno: 'CA 027-496' }, { regno: 'CA 363-996' }], show);
         });
-        it('should return CJ 555-666, CY 02147, CY 996332 and CY 54544', async function () {
+        it('should return CY 021470, CY 996332 and CY 545442', async function () {
             await reg.addRegNum('CJ 555-666'),
                 await reg.addRegNum('CY 021470'),
                 await reg.addRegNum('CY 996332'),

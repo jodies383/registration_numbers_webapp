@@ -16,6 +16,7 @@ module.exports = function (pool) {
         res.redirect('/')
     }
     async function show(req, res) {
+        await reg.showBtnError(req.body.towns, req)
         let show = await reg.showBtn(req.body.towns, req);
         res.render('index', {
             listFormat: show

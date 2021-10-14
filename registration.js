@@ -56,7 +56,25 @@ module.exports = function (pool) {
             req.flash('info', 'Please select a town');
         }
     }
+    async function showBtnError(btn, req) {
+        let cpt = await pool.query("select regno from reg where reg_id = '1'")
+        let paarl = await pool.query("select regno from reg where reg_id = '2'")
+        let bellville = await pool.query("select regno from reg where reg_id = '3'")
+        let all = await pool.query("select regno from reg")
 
+        if (btn === "cpt" && cpt.rowCount === 0) {
+            req.flash('info', 'No registration numbers found');
+        }
+        if (btn === "paarl" && paarl.rowCount === 0) {
+            req.flash('info', 'No registration numbers found');
+        }
+        if (btn === "bellville" && bellville.rowCount === 0) {
+            req.flash('info', 'No registration numbers found');
+        }
+        if (btn === "all" && all.rowCount === 0) {
+            req.flash('info', 'No registration numbers found');
+        }
+    }
     async function reset() {
         let deleted = await pool.query('delete from reg')
 
@@ -69,6 +87,7 @@ module.exports = function (pool) {
         returnReg,
         selectRegId,
         showBtn,
+        showBtnError,
         reset
     }
 }
