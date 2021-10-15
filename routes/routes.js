@@ -1,25 +1,42 @@
 module.exports = function (pool) {
 
-    const registration = require('../registration');
+    const registration = require('../registration')
     const reg = registration(pool)
 
 
     async function home(req, res) {
-        let regNum = await reg.returnReg();
+        let regNum = await reg.returnReg()
         res.render('index', {
             listFormat: regNum
         });
     }
     async function addNum(req, res) {
         await reg.errors(req.body.enterNum, req)
-        await reg.addRegNum(req.body.enterNum);
+        await reg.addRegNum(req.body.enterNum)
         res.redirect('/')
     }
     async function show(req, res) {
-        await reg.showBtnError(req.body.towns, req)
-        let show = await reg.showBtn(req.body.towns, req);
+        let showReg;
+        if (!req.body.towns) {
+            req.flash('info', 'Please select a town')
+        } 
+        if (req.body.towns === "all") {
+            showReg = await reg.returnReg()
+        }
+        else {
+            var regi = await reg.showBtn(req.body.towns, req)
+        if (req.body.towns){}
+             if (regi.rowCount === 0) {
+                req.flash('info', 'No registration numbers found')
+            }
+            else {
+                var registration = await reg.showBtn(req.body.towns, req)
+                showReg = registration.rows
+            }
+        }
+
         res.render('index', {
-            listFormat: show
+            listFormat: showReg
         });
     }
     async function resetBtn(req, res) {

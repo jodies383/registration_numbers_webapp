@@ -6,7 +6,7 @@ module.exports = function (pool) {
         if (enterNum) {
             let upperNum = enterNum.toUpperCase()
             if (regEx.test(upperNum)) {
-                let checknum = await pool.query(`SELECT regNo from reg WHERE regNo = $1`, [upperNum]);
+                let checknum = await pool.query(`SELECT regNo from reg WHERE regNo = $1`, [upperNum])
                 let codes = enterNum.substring(0, 2)
 
                 if (checknum.rowCount < 1) {
@@ -19,63 +19,36 @@ module.exports = function (pool) {
     async function errors(enterNum, req) {
         let upperNum = enterNum.toUpperCase()
 
-        let checknum = await pool.query(`SELECT regNo from reg WHERE regNo = $1`, [upperNum]);
+        let checknum = await pool.query(`SELECT regNo from reg WHERE regNo = $1`, [upperNum])
 
         if (!checknum.rowCount < 1) {
-            req.flash('info', 'Registration number already exists');
+            req.flash('info', 'Registration number already exists')
         } else if (!regEx.test(enterNum)) {
-            req.flash('info', 'Please enter a valid registration number');
+            req.flash('info', 'Please enter a valid registration number')
         }
     }
 
     async function returnReg() {
         const result = await pool.query('select regNo from reg')
-        let regValue = result.rows;
+        let regValue = result.rows
         return regValue
 
     }
     async function selectRegId(reg) {
-        let upperReg = reg.toUpperCase()
-        let select = await pool.query('select id from towns where regCode = $1', [upperReg])
-        return select.rows[0].id;
-    }
-    async function showBtn(btn, req) {
-        if (btn === "cpt") {
-            let cpt = await pool.query("select regno from reg where reg_id = '1'")
-            return cpt.rows
-        } else if (btn === "paarl") {
-            let paarl = await pool.query("select regno from reg where reg_id = '2'")
-            return paarl.rows
-        } else if (btn === "bellville") {
-            let bellville = await pool.query("select regno from reg where reg_id = '3'")
-            return bellville.rows
-        } else if (btn === 'all') {
-            let all = await pool.query("select regno from reg")
-            return all.rows
-        }
-        else if (!btn) {
-            req.flash('info', 'Please select a town');
+        if (reg) {
+            let upperReg = reg.toUpperCase()
+            let select = await pool.query('select id from towns where regCode = $1', [upperReg])
+            return select.rows[0].id
         }
     }
-    async function showBtnError(btn, req) {
-        let cpt = await pool.query("select regno from reg where reg_id = '1'")
-        let paarl = await pool.query("select regno from reg where reg_id = '2'")
-        let bellville = await pool.query("select regno from reg where reg_id = '3'")
-        let all = await pool.query("select regno from reg")
+    async function showBtn(btn) {
+        var getTownId = await selectRegId(btn)
+        var specificTown = await pool.query("select regno from reg where reg_id = $1", [getTownId])
+        return specificTown
 
-        if (btn === "cpt" && cpt.rowCount === 0) {
-            req.flash('info', 'No registration numbers found');
-        }
-        if (btn === "paarl" && paarl.rowCount === 0) {
-            req.flash('info', 'No registration numbers found');
-        }
-        if (btn === "bellville" && bellville.rowCount === 0) {
-            req.flash('info', 'No registration numbers found');
-        }
-        if (btn === "all" && all.rowCount === 0) {
-            req.flash('info', 'No registration numbers found');
-        }
+
     }
+   
     async function reset(req) {
         let deleted = await pool.query('delete from reg')
         req.flash('success', 'Registration numbers successfully reset')
@@ -89,7 +62,6 @@ module.exports = function (pool) {
         returnReg,
         selectRegId,
         showBtn,
-        showBtnError,
         reset
     }
 }
