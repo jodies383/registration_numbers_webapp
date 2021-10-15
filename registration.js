@@ -42,8 +42,8 @@ module.exports = function (pool) {
         }
     }
     async function showBtn(btn) {
-        var getTownId = await selectRegId(btn)
-        var specificTown = await pool.query("select regno from reg where reg_id = $1", [getTownId])
+        let getTownId = await selectRegId(btn)
+        let specificTown = await pool.query("select regno from reg where reg_id = $1", [getTownId])
         return specificTown
 
 

@@ -24,13 +24,13 @@ module.exports = function (pool) {
             showReg = await reg.returnReg()
         }
         else {
-            var regi = await reg.showBtn(req.body.towns, req)
+            let regi = await reg.showBtn(req.body.towns, req)
             if (req.body.towns) {
                 if (regi.rowCount === 0) {
                     req.flash('info', 'No registration numbers found')
                 }
                 else {
-                    var registration = await reg.showBtn(req.body.towns, req)
+                    let registration = await reg.showBtn(req.body.towns, req)
                     showReg = registration.rows
                 }
             }
