@@ -19,19 +19,20 @@ module.exports = function (pool) {
         let showReg;
         if (!req.body.towns) {
             req.flash('info', 'Please select a town')
-        } 
+        }
         if (req.body.towns === "all") {
             showReg = await reg.returnReg()
         }
         else {
             var regi = await reg.showBtn(req.body.towns, req)
-        if (req.body.towns){}
-             if (regi.rowCount === 0) {
-                req.flash('info', 'No registration numbers found')
-            }
-            else {
-                var registration = await reg.showBtn(req.body.towns, req)
-                showReg = registration.rows
+            if (req.body.towns) {
+                if (regi.rowCount === 0) {
+                    req.flash('info', 'No registration numbers found')
+                }
+                else {
+                    var registration = await reg.showBtn(req.body.towns, req)
+                    showReg = registration.rows
+                }
             }
         }
 
